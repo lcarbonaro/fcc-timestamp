@@ -1,17 +1,12 @@
-var http = require('http');
-var url = require('url');
+var express = require('express');
+var server = express();
 
-var server = http.createServer(handleRequest);
+server.listen(process.env.PORT, function() {
+    console.log('Node server is listening on port ' + process.env.PORT);
+});
 
-server.listen(process.env.PORT);
-
-function handleRequest(req, res) {
-
-    var route = url.parse(req.url).pathname;
-    route = route.replace('/','');
-    console.log(route);
-    
-    var inp = isNaN(parseInt(route)) ? route : parseInt(route) * 1000;
+server.get('/:input', function(request, response) {
+    var inp = isNaN(parseInt(request.params.input)) ? request.params.input : parseInt(request.params.input) * 1000;
 
     var date = new Date(inp);
     var o;
@@ -30,29 +25,8 @@ function handleRequest(req, res) {
         };
     }
 
-    res.write(JSON.stringify(o));
-    res.end();
-
-    /*
-    switch(route) {
-        
-        case '/':
-            res.write('home route');
-            res.end();
-            break;
-        
-        case '/test':
-            res.write('test route');
-            res.end();
-            break;
-        
-        default:
-            res.write('no such route');
-            res.end();
-            break;
-    }
-    */
-}
+    response.send(o);
+});
 
 // from: http://stackoverflow.com/questions/1353684/detecting-an-invalid-date-date-instance-in-javascript
 function isValidDate(d) {
