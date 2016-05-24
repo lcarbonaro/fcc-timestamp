@@ -7,8 +7,7 @@ server.listen(process.env.PORT);
 
 function handleRequest(req, res) {
 
-    var route = url.parse(req.url).pathname;
-
+    var route = url.parse(req.url).pathname.replace('/','');
 
     var inp = isNaN(parseInt(route)) ? route : parseInt(route) * 1000;
 
