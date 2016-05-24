@@ -5,6 +5,11 @@ server.listen(process.env.PORT, function() {
     console.log('Node server is listening on port ' + process.env.PORT);
 });
 
+
+server.get('/', function(req,res){
+    res.send('Usage: https://salty-retreat-88810.herokuapp.com/[unix timestamp]  or  https://salty-retreat-88810.herokuapp.com/[month day, year]');
+});
+
 server.get('/:input', function(request, response) {
     var inp = isNaN(parseInt(request.params.input)) ? request.params.input : parseInt(request.params.input) * 1000;
 
